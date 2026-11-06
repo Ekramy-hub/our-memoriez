@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كتاب ذكرياتنا ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap');
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg,#f8eee9,#ead9d2,#f8eee9);
+  font-family: 'Cairo',sans-serif;
+  color: #704c4c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 12px;
+}
+
+h1 {
+  font-family: 'Amiri',serif;
+  color: #986c70;
+  font-size: 36px;
+  margin: 0;
+}
+
+.subtitle {
+  color: #a98783;
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.book-container {
+  width: min(92vw,390px);
+  height: 540px;
+  perspective: 1600px;
+}
+
+.book {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #fffaf4;
+  border-radius: 5px 15px 15px 5px;
+  box-shadow: 0 15px 40px #704c4c30;
+  overflow: hidden;
+}
+
+.page {
+  position: absolute;
+  inset: 0;
+  padding: 30px 24px;
+  background: #fffaf4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transform-origin: left center;
+  transition: transform .8s ease;
+  backface-visibility: hidden;
+  border-right: 5px solid #ead8c8;
+}
+
+.page.flipped {
+  transform: rotateY(-180deg);
+  pointer-events: none;
+}
+
+.page h2 {
+  font-family: 'Amiri',serif;
+  font-size: 30px;
+  color: #a26f76;
+  margin: 5px 0 15px;
+}
+
+.page p {
+  font-size: 14px;
+  line-height: 2;
+  color: #806565;
+}
+
+.cover {
+  background: linear-gradient(145deg,#b98688,#815d64);
+  color: white;
+}
+
+.cover h2 {
+  color: white;
+  font-size: 42px;
+}
+
+.cover p {
+  color: #f8e8e2;
+}
+
+.heart {
+  font-size: 45px;
+  margin: 12px;
+}
+
+.memory-photo {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 5px solid white;
+  box-shadow: 0 5px 15px #00000015;
+  margin: 10px 0;
+}
+
+.caption {
+  font-family: 'Amiri',serif;
+  font-size: 19px !important;
+  color: #a16e76 !important;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 25px;
+}
+
+button {
+  border: none;
+  padding: 12px 22px;
+  border-radius: 30px;
+  background: #a9787c;
+  color: white;
+  font-family: 'Cairo',sans-serif;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+#counter {
+  font-size: 13px;
+  color: #986c70;
+}
+
+.footer {
+  margin-top: 25px;
+  font-family: 'Amiri',serif;
+  color: #a17a7a;
+  font-size: 18px;
+}
+
+@media(max-height:700px) {
+  .book-container { height: 450px; }
+  .memory-photo { height: 200px; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>حكايتنا ❤️</h1>
+<div class="subtitle">كل صورة بتحكي حكاية من حكايتنا</div>
+
+<div class="book-container">
+  <div class="book" id="book"></div>
+</div>
+
+<div class="controls">
+  <button id="prev" onclick="previousPage()">❯ السابقة</button>
+  <span id="counter">1 / 1</span>
+  <button id="next" onclick="nextPage()">التالية ❮</button>
+</div>
+
+<div class="footer">صُنع بكل الحب لملاك ♡</div>
+
+<script>
+
+// ==================================
+// ✨ هنا تضيف صور وذكريات جديدة
+// ==================================
+
+const memories = [
+
+  {
+    image: "images/IMG_1072.jpg",
+    title: "أجمل بداية ❤️",
+    caption: "كل بداية حلوة بتفكرني بيكي."
+  },
+
+  {
+    image: "images/IMG_3654.jpg",
+    title: "لحظة مميزة 🌷",
+    caption: "في لحظات صغيرة بتفضل عايشة جوانا."
+  },
+
+  {
+    image: "images/IMG_3673.jpg",
+    title: "ضحكتك 🤍",
+    caption: "ضحكتك من أجمل تفاصيل أيامي."
+  },
+
+  {
+    image: "images/IMG_1646.jpg",
+    title: "ذكرياتنا 📸",
+    caption: "كل صورة لينا وراها حكاية بحب أفتكرها."
+  },
+
+  {
+    image: "images/IMG_3636.jpg",
+    title: "يوم جميل 🌸",
+    caption: "أجمل الأيام هي اللي بتكوني فيها معايا."
+  },
+
+  {
+    image: "images/IMG_3631.jpg",
+    title: "أنتِ حكايتي 💌",
+    caption: "وسط كل الناس، وجودك ليه معنى مختلف."
+  }
+
+];
+
+// ==================================
+// متغيرات الكتاب - سيبها زي ما هي
+// ==================================
+
+const book = document.getElementById("book");
+const counter = document.getElementById("counter");
+const nextBtn = document.getElementById("next");
+const prevBtn = document.getElementById("prev");
+
+let currentPage = 0;
+
+function createPage(content, isCover = false) {
+  const page = document.createElement("div");
+  page.className = "page" + (isCover ? " cover" : "");
+  page.innerHTML = content;
+  book.appendChild(page);
+}
+
+function createBook() {
+
+  // الغلاف
+  createPage(`
+    <div class="heart">♡</div>
+    <h2>كتاب ذكرياتنا</h2>
+    <p>حكاية حب ولسه أجمل صفحاتها جاية</p>
+    <p style="margin-top:25px">إلى حبيبتي ملاك</p>
+    <div class="heart">♥</div>
+    <small>افتحي الكتاب واكتشفي حكايتنا</small>
+  `, true);
+
+  // صفحة البداية
+  createPage(`
+    <h2>كان أول لقاء ✨</h2>
+    <p>ومن وسط كل الحكايات، بدأت حكايتنا إحنا.</p>
+    <p class="caption">يا بخت قلبي بالصدفة الحلوة دي ❤️</p>
+  `);
+
+  // إنشاء صفحة تلقائية لكل صورة
+  memories.forEach(memory => {
+
+    createPage(`
+      <h2>${memory.title}</h2>
+
+      <img
+        class="memory-photo"
+        src="${memory.image}"
+        alt="${memory.title}"
+        loading="lazy"
+        onerror="this.style.display='none'; this.nextElementSibling.textContent='الصورة مش موجودة، راجع اسم الملف ومكانه';"
+      >
+
+      <p class="caption">${memory.caption}</p>
+    `);
+
+  });
+
+  // صفحة النهاية
+  createPage(`
+    <div class="heart">♥</div>
+    <h2>لسه الحكاية مكملة</h2>
+    <p>كل اللي فات كان ذكريات، واللي جاي لسه مستنينا.</p>
+    <p class="caption">بحبك يا ملاك ♡</p>
+  `, true);
+
+}
+
+function updateBook() {
+
+  const pages = document.querySelectorAll(".page");
+
+  pages.forEach((page,index) => {
+    page.classList.toggle("flipped",index < currentPage);
+    page.style.zIndex = pages.length - index;
+  });
+
+  counter.textContent =
+    `${currentPage + 1} / ${pages.length}`;
+
+  prevBtn.disabled = currentPage === 0;
+  nextBtn.disabled = currentPage === pages.length - 1;
+}
+
+function nextPage() {
+  const pages = document.querySelectorAll(".page");
+
+  if(currentPage < pages.length - 1) {
+    currentPage++;
+    updateBook();
+  }
+}
+
+function previousPage() {
+  if(currentPage > 0) {
+    currentPage--;
+    updateBook();
+  }
+}
+
+// تشغيل الكتاب
+createBook();
+updateBook();
+
+</script>
+
+</body>
+</html>
