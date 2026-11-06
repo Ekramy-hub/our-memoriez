@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كتاب ذكرياتنا ❤️</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg,#f8eee9,#ead9d2,#f8eee9);
+  font-family: 'Cairo', sans-serif;
+  color: #704c4c;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 12px;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-family: 'Amiri', serif;
+  font-size: 35px;
+  margin: 0 0 5px;
+  color: #986c70;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #a98783;
+  margin-bottom: 28px;
+}
+
+.book-container {
+  width: min(92vw, 390px);
+  height: 540px;
+  perspective: 1600px;
+  position: relative;
+}
+
+.book {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #fffaf4;
+  border-radius: 5px 15px 15px 5px;
+  box-shadow: 0 15px 40px #704c4c30;
+  overflow: hidden;
+}
+
+.page {
+  position: absolute;
+  inset: 0;
+  padding: 35px 25px;
+  background: #fffaf4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  transform-origin: left center;
+  transition: transform .8s ease, opacity .4s;
+  backface-visibility: hidden;
+  border-right: 5px solid #ead8c8;
+}
+
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,#00000008,transparent 15%);
+  pointer-events: none;
+}
+
+.page.flipped {
+  transform: rotateY(-180deg);
+  pointer-events: none;
+}
+
+.cover {
+  background: linear-gradient(145deg,#b98688,#815d64);
+  color: #fff9f3;
+}
+
+.cover h2 {
+  font-family: 'Amiri', serif;
+  font-size: 43px;
+  line-height: 1.5;
+}
+
+.cover p {
+  color: #f8e8e2;
+}
+
+.heart {
+  font-size: 45px;
+  margin: 15px;
+}
+
+.page h2 {
+  font-family: 'Amiri', serif;
+  font-size: 30px;
+  color: #a26f76;
+  margin: 5px 0 15px;
+}
+
+.page p {
+  font-size: 15px;
+  line-height: 2.1;
+  color: #806565;
+}
+
+.memory-photo {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 9px;
+  border: 5px solid white;
+  box-shadow: 0 5px 15px #00000015;
+  margin: 10px 0;
+}
+
+.caption {
+  font-family: 'Amiri', serif;
+  font-size: 19px !important;
+  color: #a16e76 !important;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+button {
+  border: none;
+  padding: 12px 23px;
+  border-radius: 30px;
+  background: #a9787c;
+  color: white;
+  font-family: 'Cairo', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+button:hover {
+  background: #80565d;
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#counter {
+  font-size: 13px;
+  color: #986c70;
+}
+
+.footer {
+  margin-top: 25px;
+  font-family: 'Amiri', serif;
+  font-size: 17px;
+  color: #a17a7a;
+}
+
+@media(max-height:700px) {
+  .book-container { height: 450px; }
+  .memory-photo { height: 190px; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>حكايتنا ❤️</h1>
+<div class="subtitle">كل صفحة هنا بتحكي ذكرى من ذكرياتنا</div>
+
+<div class="book-container">
+  <div class="book" id="book">
+
+    <!-- الغلاف -->
+    <div class="page cover">
+      <div class="heart">♡</div>
+      <h2>كتاب ذكرياتنا</h2>
+      <p>حكاية حب... ولسه أجمل صفحاتها جاية</p>
+      <p style="margin-top:35px">إلى حبيبتي ملاك</p>
+      <div class="heart">♥</div>
+      <small>افتحي الكتاب واكتشفي حكايتنا</small>
+    </div>
+
+    <!-- صفحة 1 -->
+    <div class="page">
+      <h2>البداية ✨</h2>
+      <p>
+        في وسط كل الأيام العادية، كان فيه يوم مختلف...
+        يوم بدأت فيه حكاية وجودك في حياتي.
+      </p>
+      <p class="caption">
+        ومن هنا بدأت أجمل حكاية ❤️
+      </p>
+    </div>
+
+    <!-- صفحة 2 -->
+    <div class="page">
+      <h2>أجمل لحظة 📸</h2>
+      <img class="memory-photo" src="images/photo1.jpg">
+      <p class="caption">
+        في صور بتعدي، وفي صور بتفضل عايشة جوانا.
+      </p>
+    </div>
+
+    <!-- صفحة 3 -->
+    <div class="page">
+      <h2>تفاصيل صغيرة 🌷</h2>
+      <img class="memory-photo" src="images/photo2.jpg">
+      <p class="caption">
+        يمكن تكون لحظة بسيطة، بس بالنسبالي ذكرى كبيرة.
+      </p>
+    </div>
+
+    <!-- صفحة 4 -->
+    <div class="page">
+      <h2>ضحكتك 🤍</h2>
+      <img class="memory-photo" src="images/photo3.jpg">
+      <p class="caption">
+        من أجمل الحاجات اللي ممكن تحصل في يومي إني أشوفك مبسوطة.
+      </p>
+    </div>
+
+    <!-- صفحة 5 -->
+    <div class="page">
+      <h2>رسالة ليكي 💌</h2>
+      <p>
+        يا ملاك، وجودك في حياتي حاجة غالية عندي.
+        بحب تفاصيلك وضحكتك وكل اللحظات اللي بتجمعنا.
+      </p>
+      <p class="caption">
+        إنتِ ليكي مكانة مميزة في قلبي.
+      </p>
+    </div>
+
+    <!-- صفحة 6 -->
+    <div class="page">
+      <h2>لسه في حكايات ❤️</h2>
+      <img class="memory-photo" src="images/photo4.jpg">
+      <p class="caption">
+        دي مش آخر صفحة... دي مجرد بداية لذكريات جديدة.
+      </p>
+    </div>
+
+    <!-- النهاية -->
+    <div class="page cover">
+      <div class="heart">♥</div>
+      <h2>النهاية؟</h2>
+      <p>
+        مفيش نهاية لحكايتنا...
+        طول ما لسه عندنا أيام وذكريات نعيشها سوا.
+      </p>
+      <p>بحبك يا ملاك ♡</p>
+    </div>
+
+  </div>
+</div>
+
+<div class="controls">
+  <button id="prev" onclick="previousPage()">❯ السابقة</button>
+  <span id="counter">1 / 8</span>
+  <button id="next" onclick="nextPage()">التالية ❮</button>
+</div>
+
+<div class="footer">
+  صُنع بكل الحب ♡
+</div>
+
+<script>
+const pages = document.querySelectorAll('.page');
+const counter = document.getElementById('counter');
+const next = document.getElementById('next');
+const prev = document.getElementById('prev');
+
+let currentPage = 0;
+
+function updateBook() {
+  pages.forEach((page, index) => {
+    page.classList.toggle('flipped', index < currentPage);
+    page.style.zIndex = pages.length - index;
+  });
+
+  counter.textContent =
+    `${currentPage + 1} / ${pages.length}`;
+
+  prev.disabled = currentPage === 0;
+  next.disabled = currentPage === pages.length - 1;
+}
+
+function nextPage() {
+  if (currentPage < pages.length - 1) {
+    currentPage++;
+    updateBook();
+  }
+}
+
+function previousPage() {
+  if (currentPage > 0) {
+    currentPage--;
+    updateBook();
+  }
+}
+
+updateBook();
+</script>
+
+</body>
+</html>
