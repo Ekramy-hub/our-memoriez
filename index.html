@@ -8,38 +8,42 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap');
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   min-height: 100vh;
   background: linear-gradient(135deg,#f8eee9,#ead9d2,#f8eee9);
-  font-family: 'Cairo',sans-serif;
+  font-family: 'Cairo', sans-serif;
   color: #704c4c;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 12px;
+  padding: 25px 12px;
+  overflow-x: hidden;
 }
 
 h1 {
-  font-family: 'Amiri',serif;
+  font-family: 'Amiri', serif;
+  font-size: 35px;
+  margin: 0 0 5px;
   color: #986c70;
-  font-size: 36px;
-  margin: 0;
 }
 
 .subtitle {
-  color: #a98783;
   font-size: 13px;
-  margin-bottom: 25px;
+  color: #a98783;
+  margin-bottom: 28px;
 }
 
 .book-container {
-  width: min(92vw,390px);
+  width: min(92vw, 390px);
   height: 540px;
   perspective: 1600px;
+  position: relative;
 }
 
 .book {
@@ -55,17 +59,25 @@ h1 {
 .page {
   position: absolute;
   inset: 0;
-  padding: 30px 24px;
+  padding: 35px 25px;
   background: #fffaf4;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
+  justify-content: center;
   transform-origin: left center;
-  transition: transform .8s ease;
+  transition: transform .8s ease, opacity .4s;
   backface-visibility: hidden;
   border-right: 5px solid #ead8c8;
+}
+
+.page::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg,#00000008,transparent 15%);
+  pointer-events: none;
 }
 
 .page.flipped {
@@ -73,27 +85,15 @@ h1 {
   pointer-events: none;
 }
 
-.page h2 {
-  font-family: 'Amiri',serif;
-  font-size: 30px;
-  color: #a26f76;
-  margin: 5px 0 15px;
-}
-
-.page p {
-  font-size: 14px;
-  line-height: 2;
-  color: #806565;
-}
-
 .cover {
   background: linear-gradient(145deg,#b98688,#815d64);
-  color: white;
+  color: #fff9f3;
 }
 
 .cover h2 {
-  color: white;
-  font-size: 42px;
+  font-family: 'Amiri', serif;
+  font-size: 43px;
+  line-height: 1.5;
 }
 
 .cover p {
@@ -102,21 +102,34 @@ h1 {
 
 .heart {
   font-size: 45px;
-  margin: 12px;
+  margin: 15px;
+}
+
+.page h2 {
+  font-family: 'Amiri', serif;
+  font-size: 30px;
+  color: #a26f76;
+  margin: 5px 0 15px;
+}
+
+.page p {
+  font-size: 15px;
+  line-height: 2.1;
+  color: #806565;
 }
 
 .memory-photo {
   width: 100%;
-  height: 270px;
+  height: 250px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 9px;
   border: 5px solid white;
   box-shadow: 0 5px 15px #00000015;
   margin: 10px 0;
 }
 
 .caption {
-  font-family: 'Amiri',serif;
+  font-family: 'Amiri', serif;
   font-size: 19px !important;
   color: #a16e76 !important;
 }
@@ -125,24 +138,31 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 15px;
   margin-top: 25px;
 }
 
 button {
   border: none;
-  padding: 12px 22px;
+  padding: 12px 23px;
   border-radius: 30px;
   background: #a9787c;
   color: white;
-  font-family: 'Cairo',sans-serif;
-  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
   font-size: 14px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+button:hover {
+  background: #80565d;
+  transform: translateY(-2px);
 }
 
 button:disabled {
   opacity: .4;
   cursor: not-allowed;
+  transform: none;
 }
 
 #counter {
@@ -152,14 +172,14 @@ button:disabled {
 
 .footer {
   margin-top: 25px;
-  font-family: 'Amiri',serif;
+  font-family: 'Amiri', serif;
+  font-size: 17px;
   color: #a17a7a;
-  font-size: 18px;
 }
 
 @media(max-height:700px) {
   .book-container { height: 450px; }
-  .memory-photo { height: 200px; }
+  .memory-photo { height: 190px; }
 }
 </style>
 </head>
@@ -167,168 +187,141 @@ button:disabled {
 <body>
 
 <h1>حكايتنا ❤️</h1>
-<div class="subtitle">كل صورة بتحكي حكاية من حكايتنا</div>
+<div class="subtitle">كل صفحة هنا بتحكي ذكرى من ذكرياتنا</div>
 
 <div class="book-container">
-  <div class="book" id="book"></div>
+  <div class="book" id="book">
+
+    <!-- الغلاف -->
+    <div class="page cover">
+      <div class="heart">♡</div>
+      <h2>كتاب ذكرياتنا</h2>
+      <p>حكاية حب... ولسه أجمل صفحاتها جاية</p>
+      <p style="margin-top:35px">إلى حبيبتي ملاك</p>
+      <div class="heart">♥</div>
+      <small>افتحي الكتاب واكتشفي حكايتنا</small>
+    </div>
+
+    <!-- صفحة 1 -->
+    <div class="page">
+      <h2>البداية ✨</h2>
+      <p>
+        في وسط كل الأيام العادية، كان فيه يوم مختلف...
+        يوم بدأت فيه حكاية وجودك في حياتي.
+      </p>
+      <p class="caption">
+        ومن هنا بدأت أجمل حكاية ❤️
+      </p>
+    </div>
+
+    <!-- صفحة 2 -->
+    <div class="page">
+      <h2>أجمل لحظة 📸</h2>
+      <img class="memory-photo" src="images/IMG_1646.jpg">
+      <p class="caption">
+        في صور بتعدي، وفي صور بتفضل عايشة جوانا.
+      </p>
+    </div>
+
+    <!-- صفحة 3 -->
+    <div class="page">
+      <h2>تفاصيل صغيرة 🌷</h2>
+      <img class="memory-photo" src="images/IMG_3631.jpg">
+      <p class="caption">
+        يمكن تكون لحظة بسيطة، بس بالنسبالي ذكرى كبيرة.
+      </p>
+    </div>
+
+    <!-- صفحة 4 -->
+    <div class="page">
+      <h2>ضحكتك 🤍</h2>
+      <img class="memory-photo" src="images/IMG_3673.jpg">
+      <p class="caption">
+        من أجمل الحاجات اللي ممكن تحصل في يومي إني أشوفك مبسوطة.
+      </p>
+    </div>
+
+    <!-- صفحة 5 -->
+    <div class="page">
+      <h2>رسالة ليكي 💌</h2>
+      <p>
+        يا ملاك، وجودك في حياتي حاجة غالية عندي.
+        بحب تفاصيلك وضحكتك وكل اللحظات اللي بتجمعنا.
+      </p>
+      <p class="caption">
+        إنتِ ليكي مكانة مميزة في قلبي.
+      </p>
+    </div>
+
+    <!-- صفحة 6 -->
+    <div class="page">
+      <h2>لسه في حكايات ❤️</h2>
+      <img class="memory-photo" src="images/IMG_3244.jpg">
+      <p class="caption">
+        دي مش آخر صفحة... دي مجرد بداية لذكريات جديدة.
+      </p>
+    </div>
+
+    <!-- النهاية -->
+    <div class="page cover">
+      <div class="heart">♥</div>
+      <h2>النهاية؟</h2>
+      <p>
+        مفيش نهاية لحكايتنا...
+        طول ما لسه عندنا أيام وذكريات نعيشها سوا.
+      </p>
+      <p>بحبك يا ملاك ♡</p>
+    </div>
+
+  </div>
 </div>
 
 <div class="controls">
   <button id="prev" onclick="previousPage()">❯ السابقة</button>
-  <span id="counter">1 / 1</span>
+  <span id="counter">1 / 8</span>
   <button id="next" onclick="nextPage()">التالية ❮</button>
 </div>
 
-<div class="footer">صُنع بكل الحب لملاك ♡</div>
+<div class="footer">
+  صُنع بكل الحب ♡
+</div>
 
 <script>
-
-// ==================================
-// ✨ هنا تضيف صور وذكريات جديدة
-// ==================================
-
-const memories = [
-
-  {
-    image: "images/IMG_1072.jpg",
-    title: "أجمل بداية ❤️",
-    caption: "كل بداية حلوة بتفكرني بيكي."
-  },
-
-  {
-    image: "images/IMG_3654.jpg",
-    title: "لحظة مميزة 🌷",
-    caption: "في لحظات صغيرة بتفضل عايشة جوانا."
-  },
-
-  {
-    image: "images/IMG_3673.jpg",
-    title: "ضحكتك 🤍",
-    caption: "ضحكتك من أجمل تفاصيل أيامي."
-  },
-
-  {
-    image: "images/IMG_1646.jpg",
-    title: "ذكرياتنا 📸",
-    caption: "كل صورة لينا وراها حكاية بحب أفتكرها."
-  },
-
-  {
-    image: "images/IMG_3636.jpg",
-    title: "يوم جميل 🌸",
-    caption: "أجمل الأيام هي اللي بتكوني فيها معايا."
-  },
-
-  {
-    image: "images/IMG_3631.jpg",
-    title: "أنتِ حكايتي 💌",
-    caption: "وسط كل الناس، وجودك ليه معنى مختلف."
-  }
-
-];
-
-// ==================================
-// متغيرات الكتاب - سيبها زي ما هي
-// ==================================
-
-const book = document.getElementById("book");
-const counter = document.getElementById("counter");
-const nextBtn = document.getElementById("next");
-const prevBtn = document.getElementById("prev");
+const pages = document.querySelectorAll('.page');
+const counter = document.getElementById('counter');
+const next = document.getElementById('next');
+const prev = document.getElementById('prev');
 
 let currentPage = 0;
 
-function createPage(content, isCover = false) {
-  const page = document.createElement("div");
-  page.className = "page" + (isCover ? " cover" : "");
-  page.innerHTML = content;
-  book.appendChild(page);
-}
-
-function createBook() {
-
-  // الغلاف
-  createPage(`
-    <div class="heart">♡</div>
-    <h2>كتاب ذكرياتنا</h2>
-    <p>حكاية حب ولسه أجمل صفحاتها جاية</p>
-    <p style="margin-top:25px">إلى حبيبتي ملاك</p>
-    <div class="heart">♥</div>
-    <small>افتحي الكتاب واكتشفي حكايتنا</small>
-  `, true);
-
-  // صفحة البداية
-  createPage(`
-    <h2>كان أول لقاء ✨</h2>
-    <p>ومن وسط كل الحكايات، بدأت حكايتنا إحنا.</p>
-    <p class="caption">يا بخت قلبي بالصدفة الحلوة دي ❤️</p>
-  `);
-
-  // إنشاء صفحة تلقائية لكل صورة
-  memories.forEach(memory => {
-
-    createPage(`
-      <h2>${memory.title}</h2>
-
-      <img
-        class="memory-photo"
-        src="${memory.image}"
-        alt="${memory.title}"
-        loading="lazy"
-        onerror="this.style.display='none'; this.nextElementSibling.textContent='الصورة مش موجودة، راجع اسم الملف ومكانه';"
-      >
-
-      <p class="caption">${memory.caption}</p>
-    `);
-
-  });
-
-  // صفحة النهاية
-  createPage(`
-    <div class="heart">♥</div>
-    <h2>لسه الحكاية مكملة</h2>
-    <p>كل اللي فات كان ذكريات، واللي جاي لسه مستنينا.</p>
-    <p class="caption">بحبك يا ملاك ♡</p>
-  `, true);
-
-}
-
 function updateBook() {
-
-  const pages = document.querySelectorAll(".page");
-
-  pages.forEach((page,index) => {
-    page.classList.toggle("flipped",index < currentPage);
+  pages.forEach((page, index) => {
+    page.classList.toggle('flipped', index < currentPage);
     page.style.zIndex = pages.length - index;
   });
 
   counter.textContent =
     `${currentPage + 1} / ${pages.length}`;
 
-  prevBtn.disabled = currentPage === 0;
-  nextBtn.disabled = currentPage === pages.length - 1;
+  prev.disabled = currentPage === 0;
+  next.disabled = currentPage === pages.length - 1;
 }
 
 function nextPage() {
-  const pages = document.querySelectorAll(".page");
-
-  if(currentPage < pages.length - 1) {
+  if (currentPage < pages.length - 1) {
     currentPage++;
     updateBook();
   }
 }
 
 function previousPage() {
-  if(currentPage > 0) {
+  if (currentPage > 0) {
     currentPage--;
     updateBook();
   }
 }
 
-// تشغيل الكتاب
-createBook();
 updateBook();
-
 </script>
 
 </body>
